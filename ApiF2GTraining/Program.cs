@@ -12,7 +12,9 @@ using Azure.Security.KeyVault.Secrets;
 
 var builder = WebApplication.CreateBuilder(args);
 
-//Conexion a BB.DD
+//CAMBIAR ESTO POR CONFIGURACION CON EL SINONIMO DE KEYVAULT EN AMAZON
+//SE GUARDARA LA CONFIGURACION DE LA CADENA DE CONEXION DE AMAZON RDS, DENTRO DEL SINONIMO DE KEYVAULT EN AMAZON
+
 builder.Services.AddAzureClients(factory =>
 {
     factory.AddSecretClient(builder.Configuration.GetSection("KeyVault"));
@@ -20,19 +22,19 @@ builder.Services.AddAzureClients(factory =>
 
 SecretClient secretClient = builder.Services.BuildServiceProvider().GetService<SecretClient>();
 KeyVaultSecret keyVaultSecret = await secretClient.GetSecretAsync("SqlAzureF2G");
-// Add services to the container.
 
 string connectionString = keyVaultSecret.Value;
+
+//FIN DE CAMBIO DE SINONIMO DE KEYVAULT EN AMAZON
+
 builder.Services.AddTransient<IRepositoryF2GTraining, RepositoryF2GTraining>();
 builder.Services.AddDbContext<F2GDataBaseContext>(options => options.UseSqlServer(connectionString));
 
-//Seguridad
 builder.Services.AddSingleton<HelperOAuthToken>();
 HelperOAuthToken helper = new HelperOAuthToken(builder.Configuration);
 builder.Services.AddAuthentication(helper.GetAuthenticationOptions()).AddJwtBearer(helper.GetJwtOptions());
 
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddOpenApiDocument(document => {
