@@ -258,13 +258,13 @@ namespace ApiF2GTraining.Controllers
             Usuario user = HelperContextUser.GetUsuarioByClaim(HttpContext.User.Claims.SingleOrDefault(x => x.Type == "UserData"));
             Equipo equipo = await this.repo.GetEquipo(idequipo);
 
-            if (user.IdUsuario == equipo.IdUsuario && equipo != null)
-            {
-                return await this.repo.GetEntrenamientosEquipo(idequipo);
-            }
-            else if (equipo == null)
+            if (equipo == null)
             {
                 return NotFound();
+            }
+            else if (user.IdUsuario == equipo.IdUsuario && equipo != null)
+            {
+                return await this.repo.GetEntrenamientosEquipo(idequipo);
             }
             else
             {
@@ -338,9 +338,15 @@ namespace ApiF2GTraining.Controllers
         {
             Entrenamiento entrena = await this.repo.GetEntrenamiento(identrenamiento);
             Usuario user = HelperContextUser.GetUsuarioByClaim(HttpContext.User.Claims.SingleOrDefault(x => x.Type == "UserData"));
-            Equipo equipo = await this.repo.GetEquipo(entrena.IdEquipo);
 
             if (entrena == null)
+            {
+                return NotFound();
+            }
+
+            Equipo equipo = await this.repo.GetEquipo(entrena.IdEquipo);
+
+            if (equipo == null)
             {
                 return NotFound();
             }
@@ -382,9 +388,15 @@ namespace ApiF2GTraining.Controllers
         {
             Entrenamiento entrena = await this.repo.GetEntrenamiento(identrenamiento);
             Usuario user = HelperContextUser.GetUsuarioByClaim(HttpContext.User.Claims.SingleOrDefault(x => x.Type == "UserData"));
-            Equipo equipo = await this.repo.GetEquipo(entrena.IdEquipo);
 
             if (entrena == null)
+            {
+                return NotFound();
+            }
+
+            Equipo equipo = await this.repo.GetEquipo(entrena.IdEquipo);
+
+            if (equipo == null)
             {
                 return NotFound();
             }

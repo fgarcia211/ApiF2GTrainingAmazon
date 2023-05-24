@@ -89,6 +89,11 @@ namespace ApiF2GTraining.Controllers
 
             Equipo equipo = await this.repo.GetEquipo(idequipo);
 
+            if (equipo == null)
+            {
+                return NotFound();
+            }
+
             if (equipo.IdUsuario == user.IdUsuario)
             {
                 return equipo;

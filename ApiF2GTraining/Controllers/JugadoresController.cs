@@ -110,9 +110,15 @@ namespace ApiF2GTraining.Controllers
         {
             Jugador jugador = await this.repo.GetJugadorID(idjugador);
             Usuario user = HelperContextUser.GetUsuarioByClaim(HttpContext.User.Claims.SingleOrDefault(x => x.Type == "UserData"));
-            Equipo equipo = await this.repo.GetEquipo(jugador.IdEquipo);
 
             if (jugador == null)
+            {
+                return NotFound();
+            }
+
+            Equipo equipo = await this.repo.GetEquipo(jugador.IdEquipo);
+
+            if (equipo == null)
             {
                 return NotFound();
             }
@@ -149,9 +155,15 @@ namespace ApiF2GTraining.Controllers
         {
             Jugador jugador = await this.repo.GetJugadorID(idjugador);
             Usuario user = HelperContextUser.GetUsuarioByClaim(HttpContext.User.Claims.SingleOrDefault(x => x.Type == "UserData"));
-            Equipo equipo = await this.repo.GetEquipo(jugador.IdEquipo);
 
             if (jugador == null)
+            {
+                return NotFound();
+            }
+            
+            Equipo equipo = await this.repo.GetEquipo(jugador.IdEquipo);
+
+            if (equipo == null)
             {
                 return NotFound();
             }
