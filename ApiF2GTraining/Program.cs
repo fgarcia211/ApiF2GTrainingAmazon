@@ -26,7 +26,7 @@ KeyVaultSecret keyVaultSecret = await secretClient.GetSecretAsync("SqlAzureF2G")
 string connectionString = keyVaultSecret.Value;
 builder.Services.AddDbContext<F2GDataBaseContext>(options => options.UseSqlServer(connectionString));*/
 
-/*string connectionString = builder.Configuration.GetConnectionString("MySqlF2G");*/
+string connectionString = builder.Configuration.GetConnectionString("MySqlF2G");
 builder.Services.AddDbContext<F2GDataBaseContext>(options => options.UseMySql(connectionString , ServerVersion.AutoDetect(connectionString)));
 
 //FIN DE CAMBIO DE SINONIMO DE KEYVAULT EN AMAZON
