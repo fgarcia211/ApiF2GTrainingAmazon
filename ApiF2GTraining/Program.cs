@@ -12,27 +12,9 @@ using Azure.Security.KeyVault.Secrets;
 
 var builder = WebApplication.CreateBuilder(args);
 
-//CAMBIAR ESTO POR CONFIGURACION CON EL SINONIMO DE KEYVAULT EN AMAZON
-//SE GUARDARA LA CONFIGURACION DE LA CADENA DE CONEXION DE AMAZON RDS, DENTRO DEL SINONIMO DE KEYVAULT EN AMAZON
-
-/*builder.Services.AddAzureClients(factory =>
-{
-    factory.AddSecretClient(builder.Configuration.GetSection("KeyVault"));
-});
-
-SecretClient secretClient = builder.Services.BuildServiceProvider().GetService<SecretClient>();
-KeyVaultSecret keyVaultSecret = await secretClient.GetSecretAsync("SqlAzureF2G");
-
-string connectionString = keyVaultSecret.Value;
-builder.Services.AddDbContext<F2GDataBaseContext>(options => options.UseSqlServer(connectionString));*/
-
 string connectionString = builder.Configuration.GetConnectionString("MySqlF2G");
 builder.Services.AddDbContext<F2GDataBaseContext>(options => options.UseMySql(connectionString , ServerVersion.AutoDetect(connectionString)));
-
-//FIN DE CAMBIO DE SINONIMO DE KEYVAULT EN AMAZON
-
 builder.Services.AddTransient<IRepositoryF2GTraining, RepositoryF2GTraining>();
-
 
 builder.Services.AddSingleton<HelperOAuthToken>();
 HelperOAuthToken helper = new HelperOAuthToken(builder.Configuration);
