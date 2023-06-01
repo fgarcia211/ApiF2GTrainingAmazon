@@ -39,6 +39,11 @@ builder.Services.AddOpenApiDocument(document => {
     document.OperationProcessors.Add(new AspNetCoreOperationSecurityScopeProcessor("JWT"));
 });
 
+builder.Services.AddCors(p => p.AddPolicy("corsenabled", builder =>
+{
+    builder.WithOrigins("*").AllowAnyMethod().AllowAnyHeader();
+}));
+
 var app = builder.Build();
 
 app.UseOpenApi();
@@ -52,7 +57,7 @@ app.UseSwaggerUI(options =>
     options.DocExpansion(DocExpansion.None);
 });
 
-app.UseCors("corsapp");
+app.UseCors("corsenabled");
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
