@@ -9,10 +9,11 @@ using System.Reflection.Metadata;
 using Swashbuckle.AspNetCore.SwaggerUI;
 using Microsoft.Extensions.Azure;
 using Azure.Security.KeyVault.Secrets;
+using ApiF2GTrainingAmazon.Helpers;
 
 var builder = WebApplication.CreateBuilder(args);
 
-string connectionString = builder.Configuration.GetConnectionString("MySqlF2G");
+string connectionString = await HelperSecretManager.GetSecretAsync("MySqlF2G");
 builder.Services.AddDbContext<F2GDataBaseContext>(options => options.UseMySql(connectionString , ServerVersion.AutoDetect(connectionString)));
 builder.Services.AddTransient<IRepositoryF2GTraining, RepositoryF2GTraining>();
 
