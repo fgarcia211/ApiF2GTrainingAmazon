@@ -48,6 +48,7 @@ builder.Services.AddCors(p => p.AddPolicy("corsenabled", builder =>
 var app = builder.Build();
 
 app.UseOpenApi();
+//QUITA LA PRIMERA BARRA DE LA URL CUANDO LO PASES AL API GATEWAY, SINO F
 app.UseSwaggerUI(options =>
 {
     options.InjectStylesheet("/css/bootstrap.css");
